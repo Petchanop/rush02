@@ -6,15 +6,15 @@
 /*   By: pjerddee <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 22:44:11 by pjerddee          #+#    #+#             */
-/*   Updated: 2021/12/11 04:14:32 by pjerddee         ###   ########.fr       */
+/*   Updated: 2021/12/12 14:40:42 by pjerddee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
+int				is_num(char c);
 int				chk_validity(char *str);
 void			ft_putstr(char *str);
-char			*ft_strstr(char *str, char *to_find);
 unsigned int	ft_atoi(char *str);
 
 int	chk_validity(char *str)
@@ -22,10 +22,18 @@ int	chk_validity(char *str)
 	int	i;
 
 	i = 0;
+	if (str[0] == '0')
+	{
+		ft_putstr("Input Error : Input must not begin with '0'");
+		return (0);
+	}
 	while (str[i])
 	{
-		if (str[i] <= '0' || str[i] >= '9')
+		if (!is_num(str[i]))
+		{
+			ft_putstr("Input Error : Your Input must be number");
 			return (0);
+		}
 		i++;
 	}
 	return (1);
@@ -43,32 +51,6 @@ void	ft_putstr(char *str)
 	}
 }
 
-char	*ft_strstr(char *str, char *to_find)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (str[i] != 0)
-	{
-		if (*(to_find) == *(str + i))
-		{
-			j = 0;
-			while (to_find[j] != 0)
-			{
-				if (to_find[j] != str[i +j])
-					break ;
-				else
-					j++;
-			}
-			if (to_find[j] == 0)
-				return (str + i);
-		}
-		i++;
-	}
-	return (NULL);
-}
-
 unsigned int	ft_atoi(char *str)
 {
 	unsigned int	val;
@@ -82,4 +64,12 @@ unsigned int	ft_atoi(char *str)
 		i++;
 	}
 	return (val);
+}
+
+int	is_num(char c)
+{
+	if (c < '0' || c > '9')
+		return (0);
+	else
+		return (1);
 }
